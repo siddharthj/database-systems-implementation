@@ -3,7 +3,8 @@
         "fstream": "cpp",
         "istream": "cpp",
         "ostream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "random": "cpp"
     },
     "editor.tokenColorCustomizations": {
         "textMateRules": [

@@ -23,28 +23,42 @@ DBFile::~DBFile () {
     delete(filepath);
 }
 int DBFile::Create (const char *f_path, fType f_type, void *startup) {
+    if(f_path == NULL || f_path[0] == '\0') {
+        cerr<<"Path to create file is null!!!"<<endl;
+        return 0;
+    }
     if(f_type == heap)
     {
         char *b = new char[strlen(f_path) + 1]{};
         copy(f_path, f_path + strlen(f_path), b);
         filepath = b;
         file.Open(0, filepath);
-        //file.Close();
+        file.Close();
         return 1;
     } else {
-        cerr<<"Only heap file type supported!!!";
+        cerr<<"Only heap file type supported!!!"<<endl;
         return 0;
     } 
 }
 
 void DBFile::Load (Schema &f_schema, const char *loadpath) {
+    if(filepath == NULL || filepath[0] == '\0') {
+        cerr<<"First call create() and then load()."<<endl;
+        return;
+    }
+
     FILE *tableFile = fopen(loadpath,"r");
+    if(tableFile == NULL) {
+        cerr<<"Failed to open file at loadpath:"<<loadpath<<" . Maybe the file doesn't exist at that location!!!"<<endl;
+        return;
+    }
     off_t pageCount=0;
-   // Page page;
     Record temp;
     page.EmptyItOut();
-    //file.Open(1, filepath);
+    file.Open(1, filepath);
+    off_t numberOfrecords = 0;
     while (temp.SuckNextRecord (&f_schema, tableFile)) {
+        numberOfrecords++;
         if (!page.Append(&temp)) {
             file.AddPage(&page, pageCount);
             pageCount++;
@@ -55,16 +69,26 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
             }
         }
     }
-        file.AddPage(&page, pageCount);
-        page.EmptyItOut();
+    file.AddPage(&page, pageCount);
+    page.EmptyItOut();
+    cout<<"Number of records loaded :"<<numberOfrecords;
 }
 
 int DBFile::Open (const char *f_path) {
-    char *b = new char[strlen(f_path) + 1]{};
-    copy(f_path, f_path + strlen(f_path), b);
+    if(filepath == NULL || filepath[0] == '\0') {
+        cerr<<"First call create() and call this method!!!"<<endl;
+        return 0;
+    }
+    if(f_path == NULL || f_path[0] == '\0') {
+        cerr<<"Empty file path!!!"<<endl;
+        return 0;
+    }
+
+    char *path = new char[strlen(f_path) + 1]{};
+    copy(f_path, f_path + strlen(f_path), path);
     cout<<f_path<<endl;
-    file.Open(1, b);
-    delete(b);
+    file.Open(1, path);
+    delete(path);
     return 1;
 }
 
@@ -75,10 +99,8 @@ void DBFile::MoveFirst () {
 }
 
 int DBFile::Close () {
-    if(file.Close()) {
-        return 1;
-    }
-    return 0;
+    file.Close();
+    return 1;
 }
 
 void DBFile::Add (Record &rec) {
