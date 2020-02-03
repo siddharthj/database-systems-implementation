@@ -101,29 +101,11 @@ void DBFile::Add (Record &rec) {
             exit(0);
         }
     }
-    // off_t lastPage;
-    // int fileLength = file.GetLength();
-    // if (file.GetLength() > 3) {
-    //     lastPage = fileLength - 2;
-    // }
-    // if (fileLength >3 ) {
-    //     file.GetPage(&page, lastPage);
 
-    //     if (!page.Append(&rec)) {
-    //         page.EmptyItOut();
-    //         page.Append(&rec);
-    //         lastPage++;
-    //     }
-    // } else { 
-    //     page.Append(&rec);
-    //     lastPage = 0;
-    // }
-    // file.AddPage(&page, lastPage);
 }
 
 int DBFile::GetNext (Record &fetchme) {
     totalPageCount = file.GetLength() - 1;
-    cout<<"Total Page Count :"<<totalPageCount<<endl;
     if (page.GetFirst(&fetchme)) {
         return 1;
     } else {
