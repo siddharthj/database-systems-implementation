@@ -59,15 +59,7 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
     off_t numberOfrecords = 0;
     while (temp.SuckNextRecord (&f_schema, tableFile)) {
         numberOfrecords++;
-        if (!page.Append(&temp)) {
-            file.AddPage(&page, pageCount);
-            pageCount++;
-            page.EmptyItOut();
-            if(!page.Append(&temp)) {
-                cout<<"Something wrong happended while adding record to new page";
-                exit(0);
-            }
-        }
+        Add(temp);
     }
     file.AddPage(&page, pageCount);
     page.EmptyItOut();
@@ -100,24 +92,33 @@ int DBFile::Close () {
 }
 
 void DBFile::Add (Record &rec) {
-    off_t lastPage;
-    int fileLength = file.GetLength();
-    if (file.GetLength() > 3) {
-        lastPage = fileLength - 2;
-    }
-    if (fileLength >3 ) {
-        file.GetPage(&page, lastPage);
-
-        if (!page.Append(&rec)) {
-            page.EmptyItOut();
-            page.Append(&rec);
-            lastPage++;
+    if (!page.Append(&rec)) {
+        file.AddPage(&page, totalPageCount);
+        totalPageCount++;
+        page.EmptyItOut();
+        if(!page.Append(&rec)) {
+            cout<<"Something wrong happended while adding record to new page";
+            exit(0);
         }
-    } else { 
-        page.Append(&rec);
-        lastPage = 0;
     }
-    file.AddPage(&page, lastPage);
+    // off_t lastPage;
+    // int fileLength = file.GetLength();
+    // if (file.GetLength() > 3) {
+    //     lastPage = fileLength - 2;
+    // }
+    // if (fileLength >3 ) {
+    //     file.GetPage(&page, lastPage);
+
+    //     if (!page.Append(&rec)) {
+    //         page.EmptyItOut();
+    //         page.Append(&rec);
+    //         lastPage++;
+    //     }
+    // } else { 
+    //     page.Append(&rec);
+    //     lastPage = 0;
+    // }
+    // file.AddPage(&page, lastPage);
 }
 
 int DBFile::GetNext (Record &fetchme) {
