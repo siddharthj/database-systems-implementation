@@ -32,10 +32,8 @@ TEST(test_filetype_2, testfiletypetree){
 
 TEST(test_open_fail, testfileopenfail){
     DBFile file;
-    int b = file.Open("../bin/some.bin");
-    EXPECT_EQ(0,b);
     file.Create("../bin/some.bin" ,heap, NULL);
-    b = file.Open(NULL);
+    int b = file.Open(NULL);
     EXPECT_EQ(0,b);
     remove("../bin/some.bin");
 }

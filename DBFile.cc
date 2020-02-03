@@ -75,10 +75,6 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
 }
 
 int DBFile::Open (const char *f_path) {
-    if(filepath == NULL || filepath[0] == '\0') {
-        cerr<<"First call create() and call this method!!!"<<endl;
-        return 0;
-    }
     if(f_path == NULL || f_path[0] == '\0') {
         cerr<<"Empty file path!!!"<<endl;
         return 0;
