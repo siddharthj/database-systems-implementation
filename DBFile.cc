@@ -71,7 +71,7 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
     }
     file.AddPage(&page, pageCount);
     page.EmptyItOut();
-    cout<<"Number of records loaded :"<<numberOfrecords;
+    cout<<"Number of records loaded :"<<numberOfrecords<<endl;
 }
 
 int DBFile::Open (const char *f_path) {
