@@ -3,8 +3,8 @@
 #include "test.h"
 
 // make sure that the file path/dir information below is correct
-const char *dbfile_dir = "../bin/"; // dir where binary heap files should be stored
-const char *tpch_dir ="../tpch-dbgen/"; // dir where dbgen tpch files (extension *.tbl) can be found
+const char *dbfile_dir = "bin/"; // dir where binary heap files should be stored
+const char *tpch_dir ="tpch-dbgen/"; // dir where dbgen tpch files (extension *.tbl) can be found
 const char *catalog_path = "catalog"; // full path of the catalog file
 
 using namespace std;
@@ -75,7 +75,7 @@ void test3 () {
 }
 
 int main () {
-
+	cout << catalog_path,dbfile_dir,tpch_dir;
 	setup (catalog_path, dbfile_dir, tpch_dir);
 
 	void (*test) ();
@@ -111,3 +111,4 @@ int main () {
 
 	cleanup ();
 }
+

@@ -18,6 +18,7 @@ DBFile::DBFile () {
     currentPage = 0;
     filepath = NULL;
 }
+
 DBFile::~DBFile () {
     delete(filepath);
 }
@@ -28,7 +29,7 @@ int DBFile::Create (const char *f_path, fType f_type, void *startup) {
         copy(f_path, f_path + strlen(f_path), b);
         filepath = b;
         file.Open(0, filepath);
-        file.Close();
+        //file.Close();
         return 1;
     } else {
         cerr<<"Only heap file type supported!!!";
@@ -42,7 +43,7 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
    // Page page;
     Record temp;
     page.EmptyItOut();
-    file.Open(1, filepath);
+    //file.Open(1, filepath);
     while (temp.SuckNextRecord (&f_schema, tableFile)) {
         if (!page.Append(&temp)) {
             file.AddPage(&page, pageCount);
@@ -56,7 +57,6 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
     }
         file.AddPage(&page, pageCount);
         page.EmptyItOut();
-    
 }
 
 int DBFile::Open (const char *f_path) {
