@@ -52,7 +52,6 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
         cerr<<"Failed to open file at loadpath:"<<loadpath<<" . Maybe the file doesn't exist at that location!!!"<<endl;
         return;
     }
-    off_t pageCount=0;
     Record temp;
     page.EmptyItOut();
     file.Open(1, filepath);
@@ -61,7 +60,7 @@ void DBFile::Load (Schema &f_schema, const char *loadpath) {
         numberOfrecords++;
         Add(temp);
     }
-    file.AddPage(&page, pageCount);
+    file.AddPage(&page, totalPageCount);
     page.EmptyItOut();
     cout<<"Number of records loaded :"<<numberOfrecords<<endl;
 }
