@@ -100,7 +100,7 @@ q11
 (l_shipdate < '1994-01-07') AND
 (l_discount > 0.05) AND
 (l_discount < 0.06) AND
-(l_quantity = 4) 
+(l_quantity = 4.0) 
 
 
 q12

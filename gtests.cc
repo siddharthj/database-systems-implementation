@@ -4,10 +4,10 @@
 
 TEST(test_open, testingopen){
     DBFile file;
-    int b =  file.Create("../bin/some.bin",heap, NULL);
+    int b =  file.Create("bin/some.bin",heap, NULL);
     EXPECT_EQ(1,b);
     file.Close();
-    remove("../bin/some.bin");
+    remove("bin/some.bin");
 }
 
 TEST(test_open_empty_null, testingopenemptynull){
@@ -21,40 +21,42 @@ TEST(test_open_empty_null, testingopenemptynull){
 
 TEST(test_filetype_1, testfiletypesorted){
     DBFile file;
-    int b =  file.Create("../bin/some.bin",sorted, NULL);
+    int b =  file.Create("bin/some.bin",sorted, NULL);
     EXPECT_EQ(0,b);
+    remove("bin/some.bin");
 }
 TEST(test_filetype_2, testfiletypetree){
     DBFile file;
-    int b =  file.Create("../bin/some.bin",tree, NULL);
+    int b =  file.Create("bin/some.bin",tree, NULL);
     EXPECT_EQ(0,b);
+    remove("bin/some.bin");
 }
 
 TEST(test_open_fail, testfileopenfail){
     DBFile file;
-    file.Create("../bin/some.bin" ,heap, NULL);
+    file.Create("bin/some.bin" ,heap, NULL);
     int b = file.Open(NULL);
     EXPECT_EQ(0,b);
-    remove("../bin/some.bin");
+    remove("bin/some.bin");
 }
 
 TEST(test_open_pass, testfileopenpass){
     DBFile file;
-    file.Create("../bin/some.bin" ,heap, NULL);
-    int b = file.Open("../bin/some.bin");
+    file.Create("bin/some.bin" ,heap, NULL);
+    int b = file.Open("bin/some.bin");
     EXPECT_EQ(1,b);
     file.Close();
-    remove("../bin/some.bin");
+    remove("bin/some.bin");
 }
 
 TEST(test_close_pass, testfileclosepass){
     DBFile file;
-    file.Create("../bin/some.bin" ,heap, NULL);
-    int b = file.Open("../bin/some.bin");
+    file.Create("bin/some.bin" ,heap, NULL);
+    int b = file.Open("bin/some.bin");
     EXPECT_EQ(1,b);
     b = file.Close();
     EXPECT_EQ(1,b);
-    remove("../bin/some.bin");
+    remove("bin/some.bin");
 }
 
 //----------
